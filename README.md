@@ -3,7 +3,6 @@
 <ul>
   <li>git clone https://github.com/aplinxy9plin/coffee-bot.git</li>
   <li>cd coffee-bot</li>
-  <li>sudo apt-get install fswebcam</li>
   <li>sudo apt-get install npm</li>
   <li>sudo sh start.sh</li>
 </ul>
