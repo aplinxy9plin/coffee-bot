@@ -7,3 +7,5 @@
   <li>sudo apt-get install npm</li>
   <li>sudo sh start.sh</li>
 </ul>
+<h1>How it works</h1>
+<img src="arch.png">
