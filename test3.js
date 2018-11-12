@@ -1,3 +1,4 @@
+// bool check = false
 var x = 1000, check = false;
 while(true){
   x++
