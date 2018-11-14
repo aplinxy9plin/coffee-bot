@@ -1,31 +1,48 @@
-// создаем массив
-var arr = [1,2,3,2,3,4,5,6,1,2,3,4]
-// массив, в который мы кладем значения
-var tmp = [],
-// массив, в который мы кладем 1 и последний элемент
-    tmp1 = [],
-    x = 0;
-for (var i = 0; i <= arr.length; i++) {
-  if(x !== 0){
-    // arr[1] > arr[0]
-    if(arr[i] > arr[i-1]){
-      // tmp = [2]
-      tmp.push(arr[i])
-    }else{
-      if(tmp.length > tmp1.length){
-        tmp1 = tmp
-      }
-      tmp = []
-      x = 0
-    }
-  }else{
-    if(i == 0){
-      // arr = [1]
-      tmp.push(arr[i])
-    }else{
-      tmp.push(arr[i-1])
-    }
-    x++
-  }
-}
-console.log(tmp1[0], tmp1[tmp1.length-1]);
+var imgur = require('imgur');
+var request = require('request')
+// Setting
+imgur.setClientId('018ebfa932f27b1');
+    // A single image
+imgur.uploadFile('img.jpg')
+    .then(function (json) {
+        // Replace <Subscription Key> with your valid subscription key.
+        const subscriptionKey = '4e4286d7b1cd4989868725a00664c633';
+
+        // You must use the same location in your REST call as you used to get your
+        // subscription keys. For example, if you got your subscription keys from
+        // westus, replace "westcentralus" in the URL below with "westus".
+        // центральная южная часть сша
+        const uriBase = 'https://southcentralus.api.cognitive.microsoft.com/face/v1.0/detect';
+
+        const imageUrl = json.data.link;
+
+        // Request parameters.
+        const params = {
+            'returnFaceId': 'true',
+            'returnFaceLandmarks': 'false',
+            'returnFaceAttributes': 'emotion'
+        };
+
+        var options = {
+            uri: uriBase,
+            qs: params,
+            body: '{"url": ' + '"' + imageUrl + '"}',
+            headers: {
+                'Content-Type': 'application/json',
+                'Ocp-Apim-Subscription-Key' : subscriptionKey
+            }
+        };
+
+        request.post(options, (error, response, body) => {
+          if (error) {
+            console.log('Error: ', error);
+            return;
+          }
+          let jsonResponse = JSON.stringify(JSON.parse(body), null, '  ');
+          console.log('JSON Response\n');
+          console.log(jsonResponse);
+        });
+    })
+    .catch(function (err) {
+        console.error(err.message);
+    });
