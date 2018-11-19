@@ -6,7 +6,13 @@ var fs = require('fs');
 var $ = require("jquery");
 var http = require("https");
 var imgur = require('imgur');
-
+var mysql = require('mysql')
+var con = mysql.createConnection({
+  host: "localhost",
+  user: "top4ek",
+  password: "q2w3e4r5",
+  database: "smile_effect"
+});
 var opts = {
     width: 1280,
     height: 720,
@@ -66,13 +72,19 @@ function createCapture(){
                     let jsonResponse = JSON.stringify(JSON.parse(body), null, '  ');
                     console.log('JSON Response\n');
                     console.log(jsonResponse);
+                    jsonResponse = JSON.parse(jsonResponse)
+                    for (var i = 0; i < jsonResponse.length; i++) {
+                      con.query("INSERT INTO `emotions`(`happy`, `sad`, `neutral`) VALUES ("+jsonResponse[i].faceAttributes.emotion.happiness+","+jsonResponse[i].faceAttributes.emotion.sadness+","+jsonResponse[i].faceAttributes.emotion.neutral+")", function (err, result, fields) {
+                        console.log('created');
+                      });
+                    }
                   });
               })
               .catch(function (err) {
                   console.error(err.message);
               });
 
-          setInterval(createCapture, 10000)
+          setInterval(createCapture, 15000)
       } else {
           console.log(err);
       }
