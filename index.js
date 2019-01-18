@@ -37,7 +37,7 @@ function createCapture(){
           imgur.uploadFile('my_picture.jpg')
               .then(function (json) {
                   // Replace <Subscription Key> with your valid subscription key.
-                  const subscriptionKey = '4e4286d7b1cd4989868725a00664c633';
+                  const subscriptionKey = '<Subscription Key>';
 
                   // You must use the same location in your REST call as you used to get your
                   // subscription keys. For example, if you got your subscription keys from
